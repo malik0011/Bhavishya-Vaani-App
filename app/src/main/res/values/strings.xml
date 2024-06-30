@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">AstroChart</string>
+    <string name="load_chart">Load Chart</string>
+    <string name="birth_chart_generator">Birth Chart Generator</string>
+    <string name="birth_date">Birth Date</string>
+</resources>
