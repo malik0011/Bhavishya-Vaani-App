@@ -5,10 +5,6 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+        initializeUi()
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
@@ -47,6 +44,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         setUpListener()
+    }
+
+    private fun initializeUi() {
+        binding.ui1.isVisible = false
+        binding.ui2.isVisible = true
     }
 
     private fun setUpListener() {
