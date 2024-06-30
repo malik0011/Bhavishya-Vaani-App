@@ -107,6 +107,9 @@ class MainActivity : AppCompatActivity() {
             buttonSelectTime.setOnClickListener {
                 showTimePickerDialog()
             }
+            btnDownload.setOnClickListener {
+                //download and save the image in download folder
+            }
         }
     }
 

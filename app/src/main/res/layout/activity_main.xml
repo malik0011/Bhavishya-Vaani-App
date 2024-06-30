@@ -36,8 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_marginHorizontal="8dp"
-            android:background="#8FFFFFFF"
             android:layout_marginTop="32dp"
+            android:background="#8FFFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -62,6 +62,20 @@
             app:layout_constraintEnd_toEndOf="@+id/chartImageView"
             app:layout_constraintStart_toStartOf="@+id/chartImageView"
             app:layout_constraintTop_toTopOf="@+id/chartImageView" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#17BE1E"
+            android:src="@drawable/ic_download"
+            app:layout_constraintBottom_toBottomOf="@+id/chartImageView"
+            app:layout_constraintEnd_toEndOf="@+id/chartImageView"
+            android:contentDescription="@string/download_chart" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
