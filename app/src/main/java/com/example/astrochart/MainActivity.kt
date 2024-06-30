@@ -1,8 +1,11 @@
 package com.example.astrochart
 
 import android.app.DatePickerDialog
+import android.app.DownloadManager
 import android.app.TimePickerDialog
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
@@ -13,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.astrochart.databinding.ActivityMainBinding
 import com.example.astrochart.viewmodels.MainViewModel
+import java.io.File
 import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private var selectedHour: Int = 0
     private var selectedMinute: Int = 0
     private var selectedAPM: String = "am"
+    private var url:String=""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.chartUrl.observe(this) { chartUrl ->
             chartUrl?.let {
                 loadImage(it)
+                url=it
             }
         }
 
@@ -111,7 +117,30 @@ class MainActivity : AppCompatActivity() {
             }
             btnDownload.setOnClickListener {
                 //download and save the image in download folder
+                downloadImage("download chart",url)
             }
+        }
+    }
+
+    fun downloadImage(filename: String, url: String) {
+        try {
+            var downloadmanager: DownloadManager?=null
+            downloadmanager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+            val downloaduri = Uri.parse(url)
+            val request= DownloadManager.Request(downloaduri)
+            request.setAllowedNetworkTypes(
+                DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE
+            )
+                .setAllowedOverRoaming(false)
+                .setTitle(filename)
+                .setMimeType("image/jpeg")
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, File.separator + filename+".jpg")
+            downloadmanager.enqueue(request)
+            Toast.makeText(this,"Downloaded successfully",Toast.LENGTH_SHORT).show()
+        }
+        catch (e:Exception){
+            Toast.makeText(this,"Image download failed !",Toast.LENGTH_SHORT).show()
         }
     }
 
