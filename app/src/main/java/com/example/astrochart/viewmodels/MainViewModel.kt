@@ -81,4 +81,23 @@ class MainViewModel: ViewModel() {
             null
         }
     }
+
+    fun updateSelectedRegion(region: String) {
+        when (region) {
+            "North Indian" -> {
+                _chartUrl.value = updateUrlSegment(_chartUrl.value?: "","nr")
+            }
+            "South Indian" -> {
+                _chartUrl.value = updateUrlSegment(_chartUrl.value?: "","sr")
+            }
+            "East Indian" ->  {
+                _chartUrl.value = updateUrlSegment(_chartUrl.value?: "","er")
+            }
+        }
+    }
+
+    private fun updateUrlSegment(originalUrl: String, newSegment: String): String {
+        val regex = "(.*_\\d{7}_1_)[a-z]{2}(_en\\.png)".toRegex()
+        return originalUrl.replace(regex, "$1$newSegment$2")
+    }
 }

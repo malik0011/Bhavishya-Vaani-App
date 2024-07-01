@@ -13,9 +13,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.astrochart.databinding.ActivityMainBinding
 import com.example.astrochart.viewmodels.MainViewModel
+import com.example.astrochart.viewmodels.adapters.RegionSelectionAdapter
 import java.io.File
 import java.util.Calendar
 
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private var selectedMinute: Int = 0
     private var selectedAPM: String = "am"
     private var url:String=""
-
+    private var regionAdapter: RegionSelectionAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +47,25 @@ class MainActivity : AppCompatActivity() {
         viewModel.chartUrl.observe(this) { chartUrl ->
             chartUrl?.let {
                 loadImage(it)
-                url=it
+                //if already assigned then just skip
+                if (regionAdapter == null) setUpRegionList()
+                url = it //updating url for download purpose
             }
         }
-
         setUpListener()
+    }
+
+    private fun setUpRegionList() {
+        binding.rcvRegions.isVisible = true
+        val regions = listOf("North Indian", "South Indian", "East Indian")
+        regionAdapter = RegionSelectionAdapter(regions) {position ->
+            binding.pBar.isVisible = true
+            //updating the selected region in vm
+            viewModel.updateSelectedRegion(regions[position])
+        }
+        binding.rcvRegions.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.rcvRegions.adapter = regionAdapter
+
     }
 
     private fun initializeUi() {
@@ -122,7 +138,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun downloadImage(filename: String, url: String) {
+    private fun downloadImage(filename: String, url: String) {
         try {
             var downloadmanager: DownloadManager?=null
             downloadmanager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
