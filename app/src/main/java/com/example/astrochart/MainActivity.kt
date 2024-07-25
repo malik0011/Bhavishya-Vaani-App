@@ -18,6 +18,10 @@ import com.bumptech.glide.Glide
 import com.example.astrochart.databinding.ActivityMainBinding
 import com.example.astrochart.viewmodels.MainViewModel
 import com.example.astrochart.viewmodels.adapters.RegionSelectionAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.Calendar
 
@@ -26,6 +30,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
 
+    private var userName = ""
+    private var gender = ""
+    private var location = ""
     private var selectedYear: Int = 0
     private var selectedMonth: Int = 0
     private var selectedDay: Int = 0
@@ -44,6 +51,13 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
+        setUpObserver()
+        setUpListener()
+
+        viewModel.getResponse(question = "How are you?")
+    }
+
+    private fun setUpObserver() {
         viewModel.chartUrl.observe(this) { chartUrl ->
             chartUrl?.let {
                 loadImage(it)
@@ -52,7 +66,10 @@ class MainActivity : AppCompatActivity() {
                 url = it //updating url for download purpose
             }
         }
-        setUpListener()
+
+        viewModel.chatResponse.observe(this) {
+            Log.d("=====", "setUpObserver: ${it.toString()}")
+        }
     }
 
     private fun setUpRegionList() {
@@ -76,11 +93,10 @@ class MainActivity : AppCompatActivity() {
     private fun setUpListener() {
         binding.apply {
             buttonSubmit.setOnClickListener {
-
                 // Get user input
-                val userName = binding.editTextName.text.toString().trim()
-                val gender = binding.spinnerGender.selectedItem.toString()
-                val location = binding.editTextLocation.text.toString().trim()
+                userName = binding.editTextName.text.toString().trim()
+                gender = binding.spinnerGender.selectedItem.toString()
+                location = binding.editTextLocation.text.toString().trim()
 
                 Log.d("======", "data: name: $userName, g: $gender, y: $selectedYear, m: $selectedMonth\n\n" +
                         "d: $selectedDay, h: $selectedHour, m: $selectedMinute, apm: $selectedAPM\n\n" +
@@ -111,17 +127,19 @@ class MainActivity : AppCompatActivity() {
 
             binding.btn.setOnClickListener{
                 binding.pBar.isVisible = true
-                viewModel.loadBirthCart(
-                    userName = "Ayan Malik",
-                    gender = "male",
-                    year = "2002",
-                    month = "08",
-                    day = "06",
-                    hour = "12",
-                    min = "30",
-                    apm = "pm",
-                    location = "kamarkundu, West Bengal, India",
-                )
+                getKnowMoreDetials()
+
+//                viewModel.loadBirthCart(
+//                    userName = "Ayan Malik",
+//                    gender = "male",
+//                    year = "2002",
+//                    month = "08",
+//                    day = "06",
+//                    hour = "12",
+//                    min = "30",
+//                    apm = "pm",
+//                    location = "kamarkundu, West Bengal, India",
+//                )
             }
 
             buttonSelectDate.setOnClickListener {
@@ -136,6 +154,80 @@ class MainActivity : AppCompatActivity() {
                 downloadImage("download chart",url)
             }
         }
+    }
+
+    private fun getKnowMoreDetials() {
+        val userName = userName.lowercase().trim()
+        val gender = gender.lowercase().trim()
+        val year = selectedYear.toString().trim()
+        val month = selectedMonth.toString().trim()
+        val day = selectedDay.toString().trim()
+        val hour = selectedHour.toString().trim()
+        val min = selectedMinute.toString().trim()
+        val apm = selectedAPM.trim()
+        val location = location.trim()
+        val selectedRegion = viewModel.selectedRegion
+        val currentProfession = "Student"
+
+        val Question = """
+                    Detailed Vedic Astrology Analysis Request
+
+                    Personal Information:
+                    Name: $userName
+                    Date of Birth: ${day}/$month/$year (day/month/year)
+                    Time of Birth: $hour:$min $apm
+                    Gender: $gender
+                    Birth Place: $location
+                    Current Residence: $selectedRegion
+                    Current Prefestion: $currentProfession
+                    Request for Comprehensive Astrological Analysis:
+
+                    Utilize your extensive knowledge of ancient Hindu Vedic astrology to provide an in-depth analysis of $userName’s astrological chart. Please cover the following aspects in detail:
+
+                    Personality Analysis:
+
+                    Provide a thorough description of $userName's core personality traits.
+                    Include insights into his strengths, weaknesses, and general disposition.
+                    Explain how the planetary positions influence his behavior, thinking patterns, and interactions with others.
+                    Love Life:
+
+                    Offer detailed predictions about his romantic relationships and marriage prospects.
+                    Indicate the potential timeframes for significant romantic events or marriage.
+                    Describe the nature of his future spouse and how their relationship dynamics will be.
+                    Provide advice on how to cultivate successful and fulfilling romantic relationships.
+                    Career:
+
+                    Predict his career path and professional success based on his astrological chart.
+                    Identify suitable career fields or industries where he is likely to excel.
+                    Discuss potential challenges he may face in his career and how to overcome them.
+                    Provide strategic advice for achieving long-term professional success and growth.
+                    Education:
+
+                    Analyze his educational prospects and intellectual capabilities.
+                    Suggest areas of study or fields where he might excel.
+                    Identify any potential obstacles in his educational journey and how to navigate them.
+                    Offer guidance on how to maximize his academic success and continuous learning.
+                    Health:
+
+                    Predict his overall health and well-being based on his chart.
+                    Identify any potential health issues or vulnerabilities.
+                    Suggest preventive measures and lifestyle choices for maintaining good health.
+                    Provide advice on managing stress, mental health, and physical fitness.
+                    Wealth and Finance:
+
+                    Analyze his financial prospects and potential for wealth accumulation.
+                    Identify favorable times for financial gains and potential challenges.
+                    Offer advice on financial planning, investments, and wealth management.
+                    Suggest strategies for achieving long-term financial stability and prosperity.
+                    Improvement and Advice:
+
+                    Highlight areas for personal growth and improvement.
+                    Provide actionable advice for overcoming weaknesses and enhancing strengths.
+                    Offer general life advice based on his astrological chart to help him achieve a balanced and fulfilling life.
+                    Ensure the analysis is written in a clear, engaging manner that captures readers' attention and provides valuable insights. Use precise astrological terminology and detailed explanations to support your predictions and advice.
+                """.trimIndent()
+
+        viewModel.getResponse(question = Question)
     }
 
     private fun downloadImage(filename: String, url: String) {

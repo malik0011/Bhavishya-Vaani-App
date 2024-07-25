@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Bhavishya Vaani</string>
     <string name="load_chart">Load Chart</string>
+    <string name="know_more">Know more</string>
     <string name="birth_chart_generator">Birth Chart Generator</string>
     <string name="birth_date">Birth Date</string>
     <string name="download_chart">Download Chart</string>

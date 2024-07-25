@@ -79,4 +79,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    //gson
+    implementation ("com.google.code.gson:gson:2.8.8")
+
+    //gemini
+    implementation("com.google.ai.client.generativeai:generativeai:0.7.0")
 }
