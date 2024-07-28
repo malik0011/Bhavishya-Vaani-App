@@ -4,4 +4,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorSelected">#FFD27F</color>
     <color name="colorUnselected">#FFF1CE</color>
+    <color name="primary_blue">#3498db</color>
+    <color name="primary_yellow">#f1c40f</color>
+    <color name="secondary_green">#2ecc71</color>
+    <color name="secondary_red">#e74c3c</color>
+    <color name="secondary_purple">#9b59b6</color>
+    <color name="neutral_light_gray">#f7f7f7</color>
+    <color name="neutral_dark_gray">#333333</color>
+    <color name="neutral_white">#ffffff</color>
+    <color name="additional_light_blue">#66d9ef</color>
+    <color name="additional_orange">#ffcc00</color>
+    <color name="secondary_blue">#00232E</color>
+
 </resources>

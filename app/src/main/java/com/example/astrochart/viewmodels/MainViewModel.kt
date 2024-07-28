@@ -125,168 +125,168 @@ class MainViewModel: ViewModel() {
         return originalUrl.replace(regex, "$1$newSegment$2")
     }
 
-    fun getResponse2(question: String){
-
-        viewModelScope.launch {
-            // setting text on for question on below line.
-
-            val client = OkHttpClient()
-
-            val apiKey="sk-proj-VxAHIEGp3NFayUiQyjWmT3BlbkFJ6e14ynXUpZtMCXMwQczw"
-            val apiKey2 ="sk-icM6nUJbVqHeIScK5bppNsmvNmwtEFdO"
-            val url="https://api.openai.com/v1/engines/davinci-002/completions"
-
-            val requestBody="""
-            {
-            "prompt": "$question",
-            "max_tokens": 100,
-            "temperature": 0
-            }
-        """.trimIndent()
-
-            val request = Request.Builder()
-                .url(url)
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Authorization", "Bearer $apiKey")
-                .post(requestBody.toRequestBody("application/json".toMediaTypeOrNull()))
-                .build()
-
-            client.newCall(request).enqueue(object : okhttp3.Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    Log.e("error","API failed",e)
-                }
-
-                override fun onResponse(call: Call, response: Response) {
-                    val body=response.body?.string()
-                    if (body != null) {
-                        Log.v("data",body)
-                        _chatResponse.postValue(body.toString())
-                    }
-                    else{
-                        _chatResponse.postValue("empty")
-                        Log.v("data","empty")
-                    }
-                    val jsonObject= JSONObject(body)
-                    val jsonArray: JSONArray =jsonObject.getJSONArray("choices")
-                    val textResult=jsonArray.getJSONObject(0).getString("text")
-//                callback(textResult)
-                }
-            })
-        }
-    }
-
-    fun getResponse3(question: String){
-
-        viewModelScope.launch(Dispatchers.IO) {
-            // setting text on for question on below line.
-
+//    fun getResponse2(question: String){
+//
+//        viewModelScope.launch {
+//            // setting text on for question on below line.
+//
 //            val client = OkHttpClient()
-            val loggingInterceptor = HttpLoggingInterceptor()
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-            val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
+//
+//            val apiKey="sk-proj-VxAHIEGp3NFayUiQyjWmT3BlbkFJ6e14ynXUpZtMCXMwQczw"
+//            val apiKey2 ="sk-icM6nUJbVqHeIScK5bppNsmvNmwtEFdO"
+//            val url="https://api.openai.com/v1/engines/davinci-002/completions"
+//
+//            val requestBody="""
+//            {
+//            "prompt": "$question",
+//            "max_tokens": 100,
+//            "temperature": 0
+//            }
+//        """.trimIndent()
+//
+//            val request = Request.Builder()
+//                .url(url)
+//                .addHeader("Content-Type", "application/json")
+//                .addHeader("Authorization", "Bearer $apiKey")
+//                .post(requestBody.toRequestBody("application/json".toMediaTypeOrNull()))
+//                .build()
+//
+//            client.newCall(request).enqueue(object : okhttp3.Callback {
+//                override fun onFailure(call: Call, e: IOException) {
+//                    Log.e("error","API failed",e)
+//                }
+//
+//                override fun onResponse(call: Call, response: Response) {
+//                    val body=response.body?.string()
+//                    if (body != null) {
+//                        Log.v("data",body)
+//                        _chatResponse.postValue(body.toString())
+//                    }
+//                    else{
+//                        _chatResponse.postValue("empty")
+//                        Log.v("data","empty")
+//                    }
+//                    val jsonObject= JSONObject(body)
+//                    val jsonArray: JSONArray =jsonObject.getJSONArray("choices")
+//                    val textResult=jsonArray.getJSONObject(0).getString("text")
+////                callback(textResult)
+//                }
+//            })
+//        }
+//    }
 
-            val apiKey = "sk-proj-VxAHIEGp3NFayUiQyjWmT3BlbkFJ6e14ynXUpZtMCXMwQczw"
-            val apiKey2 = "sk-icM6nUJbVqHeIScK5bppNsmvNmwtEFdO"
-            val url = "https://api.openai.com/v1/engines/davinci-002/completions"
-
-//            val client = OkHttpClient().addInterceptor(loggingInterceptor)
-            val mediaType = "application/json".toMediaType()
-            val body = """
-                {
-                    "model": "mistralai/Mistral-7B-v0.1",
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": "$question"
-                        }
-                    ],
-                    "max_tokens": 64,
-                    "temperature": 0.5
-                }
-            """.toRequestBody(mediaType)
-            val request = Request.Builder()
-                .url("https://api.forefront.ai/v1/chat/completions")
-                .post(body)
-
-                .addHeader("content-type", "application/json")
-                .addHeader("Authorization", "Bearer $apiKey2")
-                .build()
-            val response = client.newCall(request).execute()
-
-        }
-    }
+//    fun getResponse3(question: String){
+//
+//        viewModelScope.launch(Dispatchers.IO) {
+//            // setting text on for question on below line.
+//
+////            val client = OkHttpClient()
+//            val loggingInterceptor = HttpLoggingInterceptor()
+//            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+//            val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
+//
+//            val apiKey = "sk-proj-VxAHIEGp3NFayUiQyjWmT3BlbkFJ6e14ynXUpZtMCXMwQczw"
+//            val apiKey2 = "sk-icM6nUJbVqHeIScK5bppNsmvNmwtEFdO"
+//            val url = "https://api.openai.com/v1/engines/davinci-002/completions"
+//
+////            val client = OkHttpClient().addInterceptor(loggingInterceptor)
+//            val mediaType = "application/json".toMediaType()
+//            val body = """
+//                {
+//                    "model": "mistralai/Mistral-7B-v0.1",
+//                    "messages": [
+//                        {
+//                            "role": "user",
+//                            "content": "$question"
+//                        }
+//                    ],
+//                    "max_tokens": 64,
+//                    "temperature": 0.5
+//                }
+//            """.toRequestBody(mediaType)
+//            val request = Request.Builder()
+//                .url("https://api.forefront.ai/v1/chat/completions")
+//                .post(body)
+//
+//                .addHeader("content-type", "application/json")
+//                .addHeader("Authorization", "Bearer $apiKey2")
+//                .build()
+//            val response = client.newCall(request).execute()
+//
+//        }
+//    }
 
     fun getResponse(question: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                Log.d("====", "Question: $question")
-
-                val loggingInterceptor = HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                }
-
-                val client = OkHttpClient.Builder()
-                    .addInterceptor(loggingInterceptor)
-                    .build()
-
-                val apiKey2 = "sk-icM6nUJbVqHeIScK5bppNsmvNmwtEFdO"
-                val url = "https://api.forefront.ai/v1/chat/completions"
-                Log.d("====", "Using API Key: $apiKey2")
-                Log.d("====", "API URL: $url")
-
-                val mediaType = "application/json".toMediaType()
-                val body = """
-                {
-                    "model": "mistralai/Mistral-7B-v0.1",
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": "$question"
-                        }
-                    ],
-                    "max_tokens": 64,
-                    "temperature": 0.5
-                }
-            """.trimIndent().toRequestBody(mediaType)
-
-                Log.d("====", "Request Body: $body")
-
-                val request = Request.Builder()
-                    .url(url)
-                    .post(body)
-                    .addHeader("content-type", "application/json")
-                    .addHeader("Authorization", "Bearer $apiKey2")
-                    .build()
-
-                Log.d("====", "Request: $request")
-
-                val response = client.newCall(request).execute()
-                val responseBody = response.body?.string()
-                Log.d("====", "Response: $responseBody")
-
-                // Using Gson to parse the response
-                responseBody?.let {
-                    val gson = Gson()
-                    val jsonResponse = gson.fromJson(it, JsonObject::class.java)
-                    Log.d("====", "Parsed JSON: $jsonResponse")
-
-                    val choices = jsonResponse.getAsJsonArray("choices")
-                    if (choices.size() > 0) {
-                        val messageContent = choices[0].asJsonObject
-                            .getAsJsonObject("message")
-                            .get("content")
-                            .asString
-                        Log.d("====", "Message Content: $messageContent")
-
-                        _chatResponse.postValue(messageContent)
-                    }
-                } ?: run {
-                    Log.e("====", "Response body is null")
-                }
-            } catch (e: Exception) {
-                Log.e("====", "Error during API call", e)
-            }
-        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                Log.d("====", "Question: $question")
+//
+//                val loggingInterceptor = HttpLoggingInterceptor().apply {
+//                    level = HttpLoggingInterceptor.Level.BODY
+//                }
+//
+//                val client = OkHttpClient.Builder()
+//                    .addInterceptor(loggingInterceptor)
+//                    .build()
+//
+//                val apiKey2 = "sk-icM6nUJbVqHeIScK5bppNsmvNmwtEFdO"
+//                val url = "https://api.forefront.ai/v1/chat/completions"
+//                Log.d("====", "Using API Key: $apiKey2")
+//                Log.d("====", "API URL: $url")
+//
+//                val mediaType = "application/json".toMediaType()
+//                val body = """
+//                {
+//                    "model": "mistralai/Mistral-7B-v0.1",
+//                    "messages": [
+//                        {
+//                            "role": "user",
+//                            "content": "$question"
+//                        }
+//                    ],
+//                    "max_tokens": 64,
+//                    "temperature": 0.5
+//                }
+//            """.trimIndent().toRequestBody(mediaType)
+//
+//                Log.d("====", "Request Body: $body")
+//
+//                val request = Request.Builder()
+//                    .url(url)
+//                    .post(body)
+//                    .addHeader("content-type", "application/json")
+//                    .addHeader("Authorization", "Bearer $apiKey2")
+//                    .build()
+//
+//                Log.d("====", "Request: $request")
+//
+//                val response = client.newCall(request).execute()
+//                val responseBody = response.body?.string()
+//                Log.d("====", "Response: $responseBody")
+//
+//                // Using Gson to parse the response
+//                responseBody?.let {
+//                    val gson = Gson()
+//                    val jsonResponse = gson.fromJson(it, JsonObject::class.java)
+//                    Log.d("====", "Parsed JSON: $jsonResponse")
+//
+//                    val choices = jsonResponse.getAsJsonArray("choices")
+//                    if (choices.size() > 0) {
+//                        val messageContent = choices[0].asJsonObject
+//                            .getAsJsonObject("message")
+//                            .get("content")
+//                            .asString
+//                        Log.d("====", "Message Content: $messageContent")
+//
+//                        _chatResponse.postValue(messageContent)
+//                    }
+//                } ?: run {
+//                    Log.e("====", "Response body is null")
+//                }
+//            } catch (e: Exception) {
+//                Log.e("====", "Error during API call", e)
+//            }
+//        }
     }
 
     fun getGeminiResposne() {
@@ -300,7 +300,7 @@ class MainViewModel: ViewModel() {
 
             // Add the following code to your Kotlin source code
 
-            val geminiApiKey = "AIzaSyB1wwUa6eDhRxqr_eZJ4B_B7pAFaGkEGRs" //API_KEY
+            val geminiApiKey = "" //"AIzaSyB1wwUa6eDhRxqr_eZJ4B_B7pAFaGkEGRs" //API_KEY
 
             val model = GenerativeModel(
                 "gemini-1.5-flash",
