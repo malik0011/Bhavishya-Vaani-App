@@ -132,9 +132,7 @@ class MainViewModel: ViewModel() {
 //
 //            val client = OkHttpClient()
 //
-//            val apiKey="sk-proj-VxAHIEGp3NFayUiQyjWmT3BlbkFJ6e14ynXUpZtMCXMwQczw"
-//            val apiKey2 ="sk-icM6nUJbVqHeIScK5bppNsmvNmwtEFdO"
-//            val url="https://api.openai.com/v1/engines/davinci-002/completions"
+//
 //
 //            val requestBody="""
 //            {
@@ -185,9 +183,7 @@ class MainViewModel: ViewModel() {
 //            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 //            val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
 //
-//            val apiKey = "sk-proj-VxAHIEGp3NFayUiQyjWmT3BlbkFJ6e14ynXUpZtMCXMwQczw"
-//            val apiKey2 = "sk-icM6nUJbVqHeIScK5bppNsmvNmwtEFdO"
-//            val url = "https://api.openai.com/v1/engines/davinci-002/completions"
+//
 //
 ////            val client = OkHttpClient().addInterceptor(loggingInterceptor)
 //            val mediaType = "application/json".toMediaType()
@@ -300,7 +296,7 @@ class MainViewModel: ViewModel() {
 
             // Add the following code to your Kotlin source code
 
-            val geminiApiKey = "" //"AIzaSyB1wwUa6eDhRxqr_eZJ4B_B7pAFaGkEGRs" //API_KEY
+            val geminiApiKey = ""
 
             val model = GenerativeModel(
                 "gemini-1.5-flash",
