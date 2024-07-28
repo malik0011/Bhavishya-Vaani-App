@@ -14,6 +14,11 @@
     <color name="neutral_white">#ffffff</color>
     <color name="additional_light_blue">#66d9ef</color>
     <color name="additional_orange">#ffcc00</color>
-    <color name="secondary_blue">#00232E</color>
+    <color name="secondary_blue">#022233</color>
+    <color name="background_color">#121212</color>
+    <color name="hint_color">#AAAAAA</color>
+    <color name="accent_color">#BEED11</color>
+    <color name="time_color">#78A7FF</color>
+    <color name="button_color">#FF4081</color>
 
 </resources>

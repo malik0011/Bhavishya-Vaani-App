@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
                 //if already assigned then just skip
                 if (regionAdapter == null) setUpRegionList()
                 url = it //updating url for download purpose
+                Log.d("url",url)
             }
         }
 
@@ -262,7 +263,7 @@ class MainActivity : AppCompatActivity() {
             this.selectedYear = selectedYear
             this.selectedMonth = selectedMonth + 1
             this.selectedDay = selectedDayOfMonth
-            binding.textViewBirthDate.text = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
+            binding.textViewBirthDate.text = "Birth Date : $selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
         }, year, month, day)
 
         datePickerDialog.show()
@@ -278,7 +279,7 @@ class MainActivity : AppCompatActivity() {
             selectedAPM = if (selectedHour < 12) "am" else "pm"
             this.selectedHour = formattedHour
             this.selectedMinute = selectedMinute
-            binding.textViewTime.text = String.format("%02d:%02d %s", formattedHour, selectedMinute, selectedAPM)
+            binding.textViewTime.text = "Birth Time : " + String.format("%02d:%02d %s", formattedHour, selectedMinute, selectedAPM)
         }, hour, minute, false)
 
         timePickerDialog.show()
