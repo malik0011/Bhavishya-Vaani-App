@@ -1,4 +1,4 @@
-package com.example.astrochart.viewmodels.adapters
+package com.example.astrochart.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

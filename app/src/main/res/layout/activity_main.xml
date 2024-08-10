@@ -12,87 +12,115 @@
         android:id="@+id/ui1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/birth_chart_generator"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="45dp"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@color/primary_blue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/chartImageView"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="32dp"
-            android:background="#8FFFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/know_more"
-            android:backgroundTint="@color/time_color"
-            android:padding="15dp"
-            app:cornerRadius="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chartImageView" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <ProgressBar
-            android:id="@+id/pBar"
-            android:visibility="invisible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:outlineSpotShadowColor="#EAB30D"
-            app:layout_constraintBottom_toBottomOf="@+id/chartImageView"
-            app:layout_constraintEnd_toEndOf="@+id/chartImageView"
-            app:layout_constraintStart_toStartOf="@+id/chartImageView"
-            app:layout_constraintTop_toTopOf="@+id/chartImageView" />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/birth_chart_generator"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="45dp"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/primary_blue"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_regions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="8dp"
-            android:visibility="visible"
-            tools:listitem="@layout/item_region"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chartImageView"
-            tools:itemCount="1" />
+                <ImageView
+                    android:id="@+id/chartImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="32dp"
+                    android:background="#8FFFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="8dp"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="#EAB30D"
-            android:src="@drawable/ic_download"
-            app:layout_constraintBottom_toBottomOf="@+id/chartImageView"
-            app:layout_constraintEnd_toEndOf="@+id/chartImageView"
-            android:contentDescription="@string/download_chart" />
+                <Button
+                    android:id="@+id/btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/know_more"
+                    android:backgroundTint="@color/time_color"
+                    android:padding="15dp"
+                    app:cornerRadius="8dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chartImageView" />
+
+                <ProgressBar
+                    android:id="@+id/pBar"
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:outlineSpotShadowColor="#EAB30D"
+                    app:layout_constraintBottom_toBottomOf="@+id/chartImageView"
+                    app:layout_constraintEnd_toEndOf="@+id/chartImageView"
+                    app:layout_constraintStart_toStartOf="@+id/chartImageView"
+                    app:layout_constraintTop_toTopOf="@+id/chartImageView" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_regions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp"
+                    android:visibility="visible"
+                    tools:listitem="@layout/item_region"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chartImageView"
+                    tools:itemCount="1" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btn_download"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:backgroundTint="#EAB30D"
+                    android:src="@drawable/ic_download"
+                    app:layout_constraintBottom_toBottomOf="@+id/chartImageView"
+                    app:layout_constraintEnd_toEndOf="@+id/chartImageView"
+                    android:contentDescription="@string/download_chart" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvPredictions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/hint_color"
+                    android:visibility="gone"
+                    android:paddingVertical="4dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rcv_regions"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/item_prediction" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -101,7 +129,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="72dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.astrochart.data.Prediction
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.asTextOrNull
 import com.google.ai.client.generativeai.type.content
@@ -34,6 +35,10 @@ class MainViewModel: ViewModel() {
     //ChatGPT livedata
     private val _chatResponse = MutableLiveData<String?>()
     val chatResponse: LiveData<String?> get() = _chatResponse
+
+    //available predictions list
+    private val _predictionsList = MutableLiveData<List<Prediction?>>()
+    val predictionsList: LiveData<List<Prediction?>> get() = _predictionsList
 
     var selectedRegion = "North Indian"
 
@@ -355,5 +360,19 @@ class MainViewModel: ViewModel() {
             // Alternatively
             Log.d("======", "data: ${response.candidates.first().content.parts.first().asTextOrNull()}")
         }
+    }
+
+    fun getPredictions() {
+        val predictions = listOf(
+            Prediction("Short Details", "inshort_detils"),
+            Prediction("Life", "life"),
+            Prediction("Study", "study"),
+            Prediction("Family", "family"),
+            Prediction("Job", "job"),
+            Prediction("Health", "Health"),
+            Prediction("Ask a Question", "custom_input"),
+        )
+
+        _predictionsList.value = predictions
     }
 }

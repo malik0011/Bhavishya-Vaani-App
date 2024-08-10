@@ -14,10 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.astrochart.databinding.ActivityMainBinding
 import com.example.astrochart.viewmodels.MainViewModel
-import com.example.astrochart.viewmodels.adapters.RegionSelectionAdapter
+import com.example.astrochart.adapters.RegionSelectionAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
@@ -288,5 +289,15 @@ class MainActivity : AppCompatActivity() {
     private fun loadImage(url: String) {
         Glide.with(this).load(url).into(binding.chartImageView)
         binding.pBar.isVisible = false
+    }
+
+    private fun setUpPredictionList() {
+        viewModel.getPredictions()
+
+        viewModel.predictionsList.observe(this) {
+            binding.apply {
+                binding.rcvPredictions.layoutManager = LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)
+            }
+        }
     }
 }
