@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.astrochart.data.Prediction
+import com.google.ai.client.generativeai.BuildConfig
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.asTextOrNull
 import com.google.ai.client.generativeai.type.content
@@ -374,5 +375,9 @@ class MainViewModel: ViewModel() {
         )
 
         _predictionsList.value = predictions
+    }
+
+    fun isDebugBuild(): Boolean {
+        return BuildConfig.DEBUG
     }
 }

@@ -19,6 +19,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Debug-specific configurations can go here
+            isDebuggable = true // Ensures that the app is debuggable
+            signingConfig = signingConfigs.getByName("debug")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(

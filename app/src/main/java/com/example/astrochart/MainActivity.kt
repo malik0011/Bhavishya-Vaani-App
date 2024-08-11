@@ -8,17 +8,21 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.astrochart.adapters.HorizontalPredictionListAdapter
 import com.example.astrochart.databinding.ActivityMainBinding
 import com.example.astrochart.viewmodels.MainViewModel
 import com.example.astrochart.adapters.RegionSelectionAdapter
+import com.google.ai.client.generativeai.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
@@ -42,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     private var selectedAPM: String = "am"
     private var url:String=""
     private var regionAdapter: RegionSelectionAdapter? = null
+    private var predictionAdapter: HorizontalPredictionListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +59,7 @@ class MainActivity : AppCompatActivity() {
 
         setUpObserver()
         setUpListener()
+        feedDataForDebugTest()
 
         viewModel.getResponse(question = "How are you?")
     }
@@ -62,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.chartUrl.observe(this) { chartUrl ->
             chartUrl?.let {
                 loadImage(it)
+                setUpPredictionsListView()
                 //if already assigned then just skip
                 if (regionAdapter == null) setUpRegionList()
                 url = it //updating url for download purpose
@@ -72,6 +79,16 @@ class MainActivity : AppCompatActivity() {
         viewModel.chatResponse.observe(this) {
             Log.d("=====", "setUpObserver: ${it.toString()}")
         }
+
+        viewModel.predictionsList.observe(this) {
+            Log.d("=====", "setUpObserver: ${it.size}, $predictionAdapter")
+            predictionAdapter?.submitList(it)
+        }
+    }
+
+    private fun setUpPredictionsListView() {
+        binding.rcvPredictions.visibility = View.VISIBLE
+        setUpPredictionList()
     }
 
     private fun setUpRegionList() {
@@ -292,12 +309,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpPredictionList() {
+        predictionAdapter = HorizontalPredictionListAdapter {
+            Log.d("=====", "setUpPredictionList: ItemClicked: $it")
+        }
+        binding.rcvPredictions.apply {
+            layoutManager = GridLayoutManager(context, 2) //LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)
+            adapter = predictionAdapter
+        }
         viewModel.getPredictions()
+    }
 
-        viewModel.predictionsList.observe(this) {
-            binding.apply {
-                binding.rcvPredictions.layoutManager = LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)
-            }
+    private fun feedDataForDebugTest() {
+        Log.d("=======", "BuildConfig.DEBUG = ${BuildConfig.DEBUG}")
+        Log.d("=======", "Build Type: ${BuildConfig.BUILD_TYPE}")
+        Log.d("=======", "Build version: ${applicationContext.packageManager.getPackageInfo(applicationContext.packageName, 0).versionName}")
+            binding.buttonSubmit.setOnClickListener {
+                Toast.makeText(this, "Using Debug data", Toast.LENGTH_SHORT).show()
+                binding.ui1.isVisible = true
+                binding.ui2.isVisible = false
+                binding.pBar.isVisible = true
+                viewModel.loadBirthCart(
+                    userName = "Ayan Malik",
+                    gender = "male",
+                    year = "2002",
+                    month = "08",
+                    day = "06",
+                    hour = "12",
+                    min = "30",
+                    apm = "pm",
+                    location = "kamarkundu, West Bengal, India",
+                )
         }
     }
 }
