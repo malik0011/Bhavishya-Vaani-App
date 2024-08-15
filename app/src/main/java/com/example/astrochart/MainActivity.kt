@@ -16,14 +16,12 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.astrochart.adapters.HorizontalPredictionListAdapter
 import com.example.astrochart.databinding.ActivityMainBinding
 import com.example.astrochart.viewmodels.MainViewModel
 import com.example.astrochart.adapters.RegionSelectionAdapter
 import com.google.ai.client.generativeai.BuildConfig
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -61,7 +59,6 @@ class MainActivity : AppCompatActivity() {
         setUpListener()
         feedDataForDebugTest()
 
-        viewModel.getResponse(question = "How are you?")
     }
 
     private fun setUpObserver() {
@@ -74,6 +71,11 @@ class MainActivity : AppCompatActivity() {
                 url = it //updating url for download purpose
                 Log.d("url",url)
             }
+        }
+
+        viewModel.geminiPredictionResponse.observe(this) { response ->
+            binding.pBar.isVisible = false
+            Log.d("======geminiPredictionResponse", "setUpObserver: ${response?.title}")
         }
 
         viewModel.chatResponse.observe(this) {
@@ -146,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
             binding.btn.setOnClickListener{
                 binding.pBar.isVisible = true
-                getKnowMoreDetials()
+                getKnowMoreDetails()
 
 //                viewModel.loadBirthCart(
 //                    userName = "Ayan Malik",
@@ -175,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getKnowMoreDetials() {
+    private fun getKnowMoreDetails() {
         val userName = userName.lowercase().trim()
         val gender = gender.lowercase().trim()
         val year = selectedYear.toString().trim()
@@ -184,7 +186,7 @@ class MainActivity : AppCompatActivity() {
         val hour = selectedHour.toString().trim()
         val min = selectedMinute.toString().trim()
         val apm = selectedAPM.trim()
-        val location = location.trim()
+        val placeOfBirth = location.trim()
         val selectedRegion = viewModel.selectedRegion
         val currentProfession = "Student"
 
@@ -193,12 +195,12 @@ class MainActivity : AppCompatActivity() {
 
                     Personal Information:
                     Name: $userName
-                    Date of Birth: ${day}/$month/$year (day/month/year)
+                    Date of Birth: $day/$month/$year (day/month/year)
                     Time of Birth: $hour:$min $apm
                     Gender: $gender
-                    Birth Place: $location
+                    Birth Place: $placeOfBirth
                     Current Residence: $selectedRegion
-                    Current Prefestion: $currentProfession
+                    Current Profession: $currentProfession
                     Request for Comprehensive Astrological Analysis:
 
                     Utilize your extensive knowledge of ancient Hindu Vedic astrology to provide an in-depth analysis of $userName’s astrological chart. Please cover the following aspects in detail:
@@ -245,8 +247,19 @@ class MainActivity : AppCompatActivity() {
                     Offer general life advice based on his astrological chart to help him achieve a balanced and fulfilling life.
                     Ensure the analysis is written in a clear, engaging manner that captures readers' attention and provides valuable insights. Use precise astrological terminology and detailed explanations to support your predictions and advice.
                 """.trimIndent()
+        //viewModel.getResponse(question = Question)
 
-        viewModel.getResponse(question = Question)
+        viewModel.getGeminiResponse(
+            userName = userName,
+            dateOfBirth = "$day/$month/$year",
+            timeOfBirth = "$hour:$min",
+            amp = apm,
+            gender = gender,
+            placeOfBirth = placeOfBirth,
+            currentLocation = selectedRegion,
+            currentProfession = currentProfession,
+            responseTopic = "Work and Growth"
+        )
     }
 
     private fun downloadImage(filename: String, url: String) {
@@ -311,6 +324,8 @@ class MainActivity : AppCompatActivity() {
     private fun setUpPredictionList() {
         predictionAdapter = HorizontalPredictionListAdapter {
             Log.d("=====", "setUpPredictionList: ItemClicked: $it")
+            binding.pBar.isVisible = true
+            getKnowMoreDetails()
         }
         binding.rcvPredictions.apply {
             layoutManager = GridLayoutManager(context, 2) //LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)

@@ -92,4 +92,11 @@ dependencies {
 
     //gemini
     implementation("com.google.ai.client.generativeai:generativeai:0.7.0")
+
+    //json
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
+    // Remove this line if you're no longer using Gson
+    implementation ("com.google.code.gson:gson:2.8.8")
+
 }
