@@ -18,13 +18,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.astrochart.adapters.HorizontalPredictionListAdapter
-import com.example.astrochart.databinding.ActivityMainBinding
-import com.example.astrochart.viewmodels.MainViewModel
 import com.example.astrochart.adapters.RegionSelectionAdapter
+import com.example.astrochart.databinding.ActivityMainBinding
+import com.example.astrochart.fragments.ShowPredictionFragment
+import com.example.astrochart.viewmodels.MainViewModel
 import com.google.ai.client.generativeai.BuildConfig
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import java.io.File
 import java.util.Calendar
 
@@ -355,5 +353,15 @@ class MainActivity : AppCompatActivity() {
                     location = "kamarkundu, West Bengal, India",
                 )
         }
+    }
+
+    private fun openFragment() {
+        val fragment = ShowPredictionFragment.newInstance("", "") // Create an instance of your fragment
+
+        // Get the FragmentManager and begin a transaction
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment) // Replace the current fragment
+            .addToBackStack(null) // Optional: add this transaction to the back stack
+            .commit() // Commit the transaction
     }
 }
