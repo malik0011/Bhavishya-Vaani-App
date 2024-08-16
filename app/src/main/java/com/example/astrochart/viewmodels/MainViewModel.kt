@@ -35,6 +35,9 @@ class MainViewModel: ViewModel() {
     private val _geminiPredictionResponse = MutableLiveData<GeminiPredictionResponse?>()
     val geminiPredictionResponse: LiveData<GeminiPredictionResponse?> get() = _geminiPredictionResponse
 
+    private val _geminiResponse = MutableLiveData<String?>()
+    val geminiResponse: LiveData<String?> get() = _geminiResponse
+
     //available predictions list
     private val _predictionsList = MutableLiveData<List<Prediction?>>()
     val predictionsList: LiveData<List<Prediction?>> get() = _predictionsList
@@ -147,7 +150,7 @@ class MainViewModel: ViewModel() {
 
                 // Add the following code to your Kotlin source code
 
-                val geminiApiKey = ""
+                val geminiApiKey = "AIzaSyB1wwUa6eDhRxqr_eZJ4B_B7pAFaGkEGRs"
 
                 val model = GenerativeModel(
                     "gemini-1.5-flash",
@@ -201,12 +204,16 @@ class MainViewModel: ViewModel() {
                 // Alternatively
                 val parseData = response.candidates.first().content.parts.first().asTextOrNull()?.let { parseApiResponse(extractJson(it.trimIndent())) }
 
+                val mainresponse:String= response.candidates.first().content.parts.first().asTextOrNull()
+                    ?.let { extractJson(it) }.toString()
                 Log.d("======gemini", "getGeminiResposne-afterclean: ${response.candidates.first().content.parts.first().asTextOrNull()
                     ?.let { extractJson(it) }}")
 
                 parseData?.let {
                     Log.d("======gemini", "data: ${it.title}")
                 }
+
+                _geminiResponse.postValue(mainresponse)
 
             } catch (e: Exception) {
                 Log.d("======geminiError", "getGeminiResponse: ${e.message}")

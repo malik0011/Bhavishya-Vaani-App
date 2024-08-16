@@ -84,6 +84,10 @@ class MainActivity : AppCompatActivity() {
             Log.d("=====", "setUpObserver: ${it.size}, $predictionAdapter")
             predictionAdapter?.submitList(it)
         }
+
+        viewModel.geminiResponse.observe(this){
+            Log.d("gemmm",it.toString())
+        }
     }
 
     private fun setUpPredictionsListView() {
@@ -146,7 +150,7 @@ class MainActivity : AppCompatActivity() {
 
             binding.btn.setOnClickListener{
                 binding.pBar.isVisible = true
-                getKnowMoreDetails()
+//                getKnowMoreDetails()
 
 //                viewModel.loadBirthCart(
 //                    userName = "Ayan Malik",
@@ -159,6 +163,13 @@ class MainActivity : AppCompatActivity() {
 //                    apm = "pm",
 //                    location = "kamarkundu, West Bengal, India",
 //                )
+//                val fragment = ShowPredictionFragment.newInstance("param1Value", "param2Value")
+//                val transaction = supportFragmentManager.beginTransaction()
+//                transaction.replace(R.id.fragment_container, fragment) // Replace with your container view ID
+//                transaction.addToBackStack(null) // Optional: if you want to add the transaction to the back stack
+//                transaction.commit()
+//                binding.ui1.isVisible = false
+//                binding.ui2.isVisible = false
             }
 
             buttonSelectDate.setOnClickListener {
@@ -258,6 +269,13 @@ class MainActivity : AppCompatActivity() {
             currentProfession = currentProfession,
             responseTopic = "Work and Growth"
         )
+        val fragment = ShowPredictionFragment.newInstance("param1Value", "param2Value")
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment)
+//        transaction.addToBackStack(null)
+        transaction.commit()
+        binding.ui1.isVisible = false
+        binding.ui2.isVisible = false
     }
 
     private fun downloadImage(filename: String, url: String) {
