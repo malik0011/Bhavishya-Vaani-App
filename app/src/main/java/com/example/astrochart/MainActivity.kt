@@ -324,6 +324,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("=====", "setUpPredictionList: ItemClicked: $it")
             binding.pBar.isVisible = true
             getKnowMoreDetails()
+            openPredictionFragment()
         }
         binding.rcvPredictions.apply {
             layoutManager = GridLayoutManager(context, 2) //LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)
@@ -355,7 +356,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun openFragment() {
+    private fun openPredictionFragment() {
         val fragment = ShowPredictionFragment.newInstance("", "") // Create an instance of your fragment
 
         // Get the FragmentManager and begin a transaction

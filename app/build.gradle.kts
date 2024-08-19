@@ -99,4 +99,8 @@ dependencies {
     // Remove this line if you're no longer using Gson
     implementation ("com.google.code.gson:gson:2.8.8")
 
+    //animation lottie
+    implementation ("com.airbnb.android:lottie:3.4.0")
+
+
 }
