@@ -8,4 +8,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="health">Health</string>
     <string name="submit">Submit</string>
+    <string name="predictions_emoji">The Predictions 🔮</string>
+    <string name="description">Description:</string>
+    <string name="lorem_para">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque congue, orci quis mollis tincidunt, nunc sem euismod leo, et aliquam eros magna eget ligula. Etiam cursus enim sem. Quisque vitae nunc vitae metus eleifend cursus eget non ex. Nulla ac tortor id tellus malesuada vestibulum. Cras eleifend tincidunt justo sed vehicula. In mattis augue quis semper fringilla. Vivamus condimentum rutrum porttitor. Proin eleifend, magna nec condimentum fermentum, justo libero ullamcorper orci, mollis aliquet felis nunc in nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rutrum dignissim metus sit amet blandit. Curabitur in sapien at mi cursus dapibus. Nunc tempus elementum ante id pharetra. Nam in velit scelerisque, vehicula quam ut, cursus leo. Mauris mattis efficitur volutpat.</string>
+    <string name="suitable_fields">Suitable Fields:</string>
+    <string name="strengths">Strengths:</string>
+    <string name="challenges">Challenges:</string>
+    <string name="success_strategies">Success Strategies:</string>
+    <string name="solutions">Solutions:</string>
 </resources>

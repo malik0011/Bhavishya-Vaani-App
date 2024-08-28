@@ -1,11 +1,11 @@
 package com.example.astrochart.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.astrochart.R
+import androidx.fragment.app.Fragment
+import com.example.astrochart.databinding.FragmentShowPredictionBinding
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -13,6 +13,7 @@ private const val ARG_PARAM2 = "param2"
 class ShowPredictionFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentShowPredictionBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +27,8 @@ class ShowPredictionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_show_prediction, container, false)
+        binding = FragmentShowPredictionBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     companion object {
