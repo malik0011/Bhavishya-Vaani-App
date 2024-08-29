@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
         setUpObserver()
         setUpListener()
-        feedDataForDebugTest()
+//        feedDataForDebugTest()
 
     }
 
@@ -144,23 +144,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            binding.btn.setOnClickListener{
-                binding.pBar.isVisible = true
-                getKnowMoreDetails()
-
-//                viewModel.loadBirthCart(
-//                    userName = "Ayan Malik",
-//                    gender = "male",
-//                    year = "2002",
-//                    month = "08",
-//                    day = "06",
-//                    hour = "12",
-//                    min = "30",
-//                    apm = "pm",
-//                    location = "kamarkundu, West Bengal, India",
-//                )
-            }
-
             buttonSelectDate.setOnClickListener {
                 showDatePickerDialog()
             }
@@ -247,17 +230,17 @@ class MainActivity : AppCompatActivity() {
                 """.trimIndent()
         //viewModel.getResponse(question = Question)
 
-        viewModel.getGeminiResponse(
-            userName = userName,
-            dateOfBirth = "$day/$month/$year",
-            timeOfBirth = "$hour:$min",
-            amp = apm,
-            gender = gender,
-            placeOfBirth = placeOfBirth,
-            currentLocation = selectedRegion,
-            currentProfession = currentProfession,
-            responseTopic = "Work and Growth"
-        )
+//        viewModel.getGeminiResponse(
+//            userName = userName,
+//            dateOfBirth = "$day/$month/$year",
+//            timeOfBirth = "$hour:$min",
+//            amp = apm,
+//            gender = gender,
+//            placeOfBirth = placeOfBirth,
+//            currentLocation = selectedRegion,
+//            currentProfession = currentProfession,
+//            responseTopic = "Work and Growth"
+//        )
     }
 
     private fun downloadImage(filename: String, url: String) {
@@ -323,8 +306,7 @@ class MainActivity : AppCompatActivity() {
         predictionAdapter = HorizontalPredictionListAdapter {
             Log.d("=====", "setUpPredictionList: ItemClicked: $it")
             binding.pBar.isVisible = true
-            getKnowMoreDetails()
-            openPredictionFragment()
+            if(it.name != "Ask a Question") openPredictionFragment(it.query)
         }
         binding.rcvPredictions.apply {
             layoutManager = GridLayoutManager(context, 2) //LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)
@@ -356,8 +338,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun openPredictionFragment() {
-        val fragment = ShowPredictionFragment.newInstance("", "") // Create an instance of your fragment
+    private fun openPredictionFragment(topic: String) {
+        val fragment = ShowPredictionFragment.newInstance() // Create an instance of your fragment
+
+        // Create a Bundle and put the required data
+        val userDataBundle = Bundle().apply {
+            putString("username", userName.lowercase().trim())
+            putString("gender", gender.lowercase().trim())
+            putString("year", selectedYear.toString().trim())
+            putString("month", selectedMonth.toString().trim())
+            putString("day", selectedDay.toString().trim())
+            putString("hour", selectedHour.toString().trim())
+            putString("min", selectedMinute.toString().trim())
+            putString("apm", selectedAPM.trim())
+            putString("placeOfBirth", location.trim())
+            putString("selectedRegion", viewModel.selectedRegion)
+            putString("topic", topic)
+            putString("currentProfession", "Student") //TODO: this value is currently static we need to replace it with user selected value.
+        }
+
+        fragment.arguments = userDataBundle
 
         // Get the FragmentManager and begin a transaction
         supportFragmentManager.beginTransaction()
