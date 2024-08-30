@@ -7,9 +7,14 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.astrochart.R
 import com.example.astrochart.databinding.FragmentShowPredictionBinding
 import com.example.astrochart.viewmodels.MainViewModel
 import com.example.astrochart.viewmodels.PredictionDetailsViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 
 class ShowPredictionFragment : Fragment() {
 
@@ -47,6 +52,18 @@ class ShowPredictionFragment : Fragment() {
             currentProfession = it.getString("currentProfession")?: ""
             topic = it.getString("topic")?: ""
         }
+
+        syncFirebase()
+    }
+
+    private fun syncFirebase() {
+        val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 3600
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
+
+        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
     }
 
     override fun onCreateView(

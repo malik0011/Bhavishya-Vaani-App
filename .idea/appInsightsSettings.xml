@@ -27,10 +27,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.astrochart" />
+                  <option name="mobileSdkAppId" value="1:707655687056:android:dc5ad0c95527760e657115" />
+                  <option name="projectId" value="astrochart-5440a" />
+                  <option name="projectNumber" value="707655687056" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<defaults>
+  <entry>
+    <key>gemini_api_key_v1</key>
+    <value>1234</value>
+  </entry>
+  <entry>
+    <key>is_app_enable</key>
+    <value>true</value>
+  </entry>
+</defaults>

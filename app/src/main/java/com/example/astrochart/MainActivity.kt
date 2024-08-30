@@ -23,6 +23,10 @@ import com.example.astrochart.databinding.ActivityMainBinding
 import com.example.astrochart.fragments.ShowPredictionFragment
 import com.example.astrochart.viewmodels.MainViewModel
 import com.google.ai.client.generativeai.BuildConfig
+import com.google.firebase.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import java.io.File
 import java.util.Calendar
 
@@ -44,19 +48,22 @@ class MainActivity : AppCompatActivity() {
     private var regionAdapter: RegionSelectionAdapter? = null
     private var predictionAdapter: HorizontalPredictionListAdapter? = null
 
+    //others
+    private var remoteConfig: FirebaseRemoteConfig? = null
+    private var IS_APP_ENABLE = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+        syncFirebase()
         initializeUi()
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         setUpObserver()
         setUpListener()
-//        feedDataForDebugTest()
-
     }
 
     private fun setUpObserver() {
@@ -113,34 +120,45 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             buttonSubmit.setOnClickListener {
                 // Get user input
-                userName = binding.editTextName.text.toString().trim()
-                gender = binding.spinnerGender.selectedItem.toString()
-                location = binding.editTextLocation.text.toString().trim()
+                if (IS_APP_ENABLE) {
+                    userName = binding.editTextName.text.toString().trim()
+                    gender = binding.spinnerGender.selectedItem.toString()
+                    location = binding.editTextLocation.text.toString().trim()
 
-                Log.d("======", "data: name: $userName, g: $gender, y: $selectedYear, m: $selectedMonth\n\n" +
-                        "d: $selectedDay, h: $selectedHour, m: $selectedMinute, apm: $selectedAPM\n\n" +
-                        "l: $location")
-
-                // Validate input (example: check if fields are not empty)
-                if (userName.isNotEmpty() && location.isNotEmpty()) {
-                    binding.ui1.isVisible = true
-                    binding.ui2.isVisible = false
-                    // TODO: Handle the data (e.g., pass it to ViewModel or process it further)
-                    binding.pBar.isVisible = true
-                    Log.d("=====", "setUpListener: 12345678")
-                    viewModel.loadBirthCart(
-                        userName = userName.lowercase().trim(),
-                        gender = gender.lowercase().trim(),
-                        year = selectedYear.toString().trim(),  // Example hardcoded values
-                        month = selectedMonth.toString().trim(),
-                        day = selectedDay.toString().trim(),
-                        hour = selectedHour.toString().trim(),
-                        min = selectedMinute.toString().trim(),
-                        apm = selectedAPM.trim(),
-                        location = location.trim()
+                    Log.d(
+                        "======",
+                        "data: name: $userName, g: $gender, y: $selectedYear, m: $selectedMonth\n\n" +
+                                "d: $selectedDay, h: $selectedHour, m: $selectedMinute, apm: $selectedAPM\n\n" +
+                                "l: $location"
                     )
+
+                    // Validate input (example: check if fields are not empty)
+                    if (userName.isNotEmpty() && location.isNotEmpty()) {
+                        binding.ui1.isVisible = true
+                        binding.ui2.isVisible = false
+                        // TODO: Handle the data (e.g., pass it to ViewModel or process it further)
+                        binding.pBar.isVisible = true
+                        Log.d("=====", "setUpListener: 12345678")
+                        viewModel.loadBirthCart(
+                            userName = userName.lowercase().trim(),
+                            gender = gender.lowercase().trim(),
+                            year = selectedYear.toString().trim(),  // Example hardcoded values
+                            month = selectedMonth.toString().trim(),
+                            day = selectedDay.toString().trim(),
+                            hour = selectedHour.toString().trim(),
+                            min = selectedMinute.toString().trim(),
+                            apm = selectedAPM.trim(),
+                            location = location.trim()
+                        )
+                    } else {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Please fill in all fields",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 } else {
-                    Toast.makeText(this@MainActivity, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, getString(R.string.sorry_currently_we_are_out_of_service), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -364,5 +382,30 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, fragment) // Replace the current fragment
             .addToBackStack(null) // Optional: add this transaction to the back stack
             .commit() // Commit the transaction
+    }
+
+    private fun syncFirebase() {
+        remoteConfig = Firebase.remoteConfig
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 3600
+        }
+        remoteConfig?.setConfigSettingsAsync(configSettings)
+
+        remoteConfig?.setDefaultsAsync(R.xml.remote_config_defaults)
+
+        fetchFirebaseRCValues()
+    }
+
+    private fun fetchFirebaseRCValues() {
+        remoteConfig?.fetchAndActivate()
+            ?.addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val updated = task.result
+                    IS_APP_ENABLE = (remoteConfig?.getBoolean("is_app_enable") == true)
+                    Log.d("===firebase", "isAppEnable: ${remoteConfig?.getBoolean("is_app_enable")}")
+                } else {
+                    Toast.makeText(baseContext, getString(R.string.sorry_currently_we_are_out_of_service), Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "707655687056",
+    "project_id": "astrochart-5440a",
+    "storage_bucket": "astrochart-5440a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707655687056:android:dc5ad0c95527760e657115",
+        "android_client_info": {
+          "package_name": "com.example.astrochart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBu8opxLBMr0O54i-LT0I8IlB6bKE99fjE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
