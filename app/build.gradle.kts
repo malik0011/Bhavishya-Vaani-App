@@ -112,5 +112,8 @@ dependencies {
     implementation("com.google.firebase:firebase-config")
     implementation("com.google.firebase:firebase-analytics")
 
+    //adsmob
+    implementation("com.google.android.gms:play-services-ads:23.3.0")
+
 
 }

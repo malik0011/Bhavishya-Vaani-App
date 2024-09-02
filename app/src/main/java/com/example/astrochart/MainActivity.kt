@@ -23,10 +23,20 @@ import com.example.astrochart.databinding.ActivityMainBinding
 import com.example.astrochart.fragments.ShowPredictionFragment
 import com.example.astrochart.viewmodels.MainViewModel
 import com.google.ai.client.generativeai.BuildConfig
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.Calendar
 
@@ -52,6 +62,9 @@ class MainActivity : AppCompatActivity() {
     private var remoteConfig: FirebaseRemoteConfig? = null
     private var IS_APP_ENABLE = false
 
+    //Ads
+    private var mInterstitialAd: InterstitialAd? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -64,8 +77,9 @@ class MainActivity : AppCompatActivity() {
 
         setUpObserver()
         setUpListener()
+//        setUpAds()
+//        loadIndustrialAds()
     }
-
     private fun setUpObserver() {
         viewModel.chartUrl.observe(this) { chartUrl ->
             chartUrl?.let {
@@ -102,7 +116,6 @@ class MainActivity : AppCompatActivity() {
         binding.rcvRegions.isVisible = true
         val regions = listOf("North Indian", "South Indian", "East Indian")
         regionAdapter = RegionSelectionAdapter(regions) {position ->
-            binding.pBar.isVisible = true
             //updating the selected region in vm
             viewModel.updateSelectedRegion(regions[position])
         }
@@ -120,6 +133,7 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             buttonSubmit.setOnClickListener {
                 // Get user input
+
                 if (IS_APP_ENABLE) {
                     userName = binding.editTextName.text.toString().trim()
                     gender = binding.spinnerGender.selectedItem.toString()
@@ -323,7 +337,6 @@ class MainActivity : AppCompatActivity() {
     private fun setUpPredictionList() {
         predictionAdapter = HorizontalPredictionListAdapter {
             Log.d("=====", "setUpPredictionList: ItemClicked: $it")
-            binding.pBar.isVisible = true
             if(it.name != "Ask a Question") openPredictionFragment(it.query)
         }
         binding.rcvPredictions.apply {
@@ -387,7 +400,7 @@ class MainActivity : AppCompatActivity() {
     private fun syncFirebase() {
         remoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
+            minimumFetchIntervalInSeconds = 10
         }
         remoteConfig?.setConfigSettingsAsync(configSettings)
 
@@ -407,5 +420,9 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(baseContext, getString(R.string.sorry_currently_we_are_out_of_service), Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun showHidePbar() {
+        binding.pBar.isVisible = !binding.pBar.isVisible
     }
 }

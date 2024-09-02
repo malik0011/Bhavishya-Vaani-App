@@ -1,6 +1,7 @@
 package com.example.astrochart.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,20 @@ import com.example.astrochart.R
 import com.example.astrochart.databinding.FragmentShowPredictionBinding
 import com.example.astrochart.viewmodels.MainViewModel
 import com.example.astrochart.viewmodels.PredictionDetailsViewModel
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ShowPredictionFragment : Fragment() {
 
@@ -36,6 +47,9 @@ class ShowPredictionFragment : Fragment() {
     private var currentProfession = ""
     private var topic = ""
 
+    //Ads
+    private var mInterstitialAd: InterstitialAd? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -54,6 +68,8 @@ class ShowPredictionFragment : Fragment() {
         }
 
         syncFirebase()
+        setUpAds()
+        loadIndustrialAds()
     }
 
     private fun syncFirebase() {
@@ -86,6 +102,69 @@ class ShowPredictionFragment : Fragment() {
         return binding.root
     }
 
+    private fun showAd() {
+        if (mInterstitialAd != null) {
+            this.activity?.let { mInterstitialAd?.show(it) }
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.")
+        }
+    }
+
+    private fun loadIndustrialAds() {
+        val adRequest = AdRequest.Builder().build()
+
+        context?.let {
+            InterstitialAd.load(it,"ca-app-pub-2791337005168410/6312477779", adRequest, object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    adError.toString().let { Log.d("===ads", it) }
+                    mInterstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    Log.d("===ads", "Ad was loaded.")
+                    mInterstitialAd = interstitialAd
+                }
+            })
+        }
+
+        mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+            override fun onAdClicked() {
+                // Called when a click is recorded for an ad.
+                Log.d("===ads", "Ad was clicked.")
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                // Called when ad is dismissed.
+                Log.d("===ads", "Ad dismissed fullscreen content.")
+                mInterstitialAd = null
+            }
+
+            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                // Called when ad fails to show.
+                Log.e("===ads", "Ad failed to show fullscreen content.")
+                mInterstitialAd = null
+            }
+
+            override fun onAdImpression() {
+                // Called when an impression is recorded for an ad.
+                Log.d("===ads", "Ad recorded an impression.")
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+                Log.d("===ads", "Ad showed fullscreen content.")
+            }
+        }
+    }
+
+    private fun setUpAds() {
+        val backgroundScope = CoroutineScope(Dispatchers.IO)
+        backgroundScope.launch {
+            // Initialize the Google Mobile Ads SDK on a background thread.
+            context?.let { MobileAds.initialize(it) {} }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpObservers()
@@ -94,6 +173,7 @@ class ShowPredictionFragment : Fragment() {
     private fun setUpObservers() {
         viewModel.geminiPredictionResponse.observe(viewLifecycleOwner) { data ->
             showUiAndHidePBar()
+            showAd()
             binding.apply {
                 tvTitle.text = data?.title
                 tvDescription.text = data?.analysis?.description
