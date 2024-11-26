@@ -20,5 +20,6 @@
     <color name="accent_color">#BEED11</color>
     <color name="time_color">#78A7FF</color>
     <color name="button_color">#FF4081</color>
+    <color name="card_background">#142633</color>
 
 </resources>

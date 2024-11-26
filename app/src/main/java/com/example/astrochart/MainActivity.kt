@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
 //        setUpAds()
 //        loadIndustrialAds()
     }
+
     private fun setUpObserver() {
         viewModel.chartUrl.observe(this) { chartUrl ->
             chartUrl?.let {
@@ -121,7 +122,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding.rcvRegions.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rcvRegions.adapter = regionAdapter
-
     }
 
     private fun initializeUi() {
@@ -134,9 +134,10 @@ class MainActivity : AppCompatActivity() {
             buttonSubmit.setOnClickListener {
                 // Get user input
 
-                if (IS_APP_ENABLE) {
+//                if (IS_APP_ENABLE) {
+                if (true) {
                     userName = binding.editTextName.text.toString().trim()
-                    gender = binding.spinnerGender.selectedItem.toString()
+                    gender = binding.spinnerGender.text.toString()
                     location = binding.editTextLocation.text.toString().trim()
 
                     Log.d(

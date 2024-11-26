@@ -131,116 +131,189 @@
         android:id="@+id/ui2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="32dp"
         android:visibility="visible"
+        android:background="@drawable/gradient_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/editTextName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:padding="12dp"
-            android:background="@drawable/rounded_edittext"
-            android:hint="Name"
-            android:textColorHint="@color/hint_color"
-            android:textColor="@color/white"
-            android:drawableStart="@drawable/baseline_person_24"
-            android:drawablePadding="8dp"
-            android:inputType="text" />
-
-        <Spinner
-            android:id="@+id/spinnerGender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editTextName"
-            android:layout_margin="16dp"
-            android:padding="12dp"
-            android:drawableStart="@drawable/baseline_transgender_24"
-            android:drawablePadding="8dp"
-            android:background="@drawable/rounded_spinner"
-            android:entries="@array/gender_options" />
-
         <TextView
-            android:id="@+id/textViewBirthDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/spinnerGender"
-            android:layout_margin="25dp"
-            android:textStyle="bold"
-            android:textSize="17sp"
-            android:textColor="@color/time_color"
-            android:text="@string/birth_date" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonSelectDate"
+            android:id="@+id/headerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textViewBirthDate"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="8dp"
-            android:padding="15dp"
-            app:cornerRadius="8dp"
-            app:backgroundTint="#EAB30D"
-            android:textColor="@color/white"
-            android:text="Select Date" />
-
-        <TextView
-            android:id="@+id/textViewTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/buttonSelectDate"
-            android:layout_margin="25dp"
-            android:textSize="17sp"
-            android:textColor="@color/time_color"
-            android:textStyle="bold"
-            android:text="Birth Time" />
-
-        <Button
-            android:id="@+id/buttonSelectTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textViewTime"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="8dp"
-            android:padding="15dp"
-            app:backgroundTint="#EAB30D"
-            app:cornerRadius="8dp"
-            android:textColor="@color/white"
-            android:text="Select Time" />
-
-        <EditText
-            android:id="@+id/editTextLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/buttonSelectTime"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="25dp"
-            android:padding="12dp"
-            android:background="@drawable/rounded_edittext"
-            android:textColor="@color/white"
-            android:hint="Location"
-            android:drawableStart="@drawable/baseline_location_on_24"
-            android:drawablePadding="8dp"
-            android:textColorHint="@color/hint_color"
-            android:inputType="text" />
-
-        <Button
-            android:id="@+id/buttonSubmit"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editTextLocation"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="32dp"
-            app:backgroundTint="#EAB30D"
-            app:cornerRadius="8dp"
-            android:padding="12dp"
-            android:textColor="@color/white"
-            android:text="@string/submit" />
+            android:text="Birth Chart Details"
+            android:textSize="28sp"
+            android:textColor="@color/primary_yellow"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="24dp"/>
 
+        <TextView
+            android:id="@+id/subHeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/headerText"
+            android:layout_centerHorizontal="true"
+            android:text="Enter your details for personalized predictions"
+            android:textColor="@color/additional_light_blue"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subHeaderText"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/card_background">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/baseline_person_24"
+                    app:startIconTint="@color/primary_yellow"
+                    app:hintTextColor="@color/primary_yellow"
+                    app:boxStrokeColor="@color/primary_yellow"
+                    android:textColorHint="@color/hint_color"
+                    app:boxBackgroundColor="#1A1A1A">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:paddingStart="45dp"
+                        android:paddingEnd="12dp"
+                        android:hint="Full Name"
+                        android:textColor="@color/white" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/baseline_transgender_24"
+                    app:startIconTint="@color/primary_yellow"
+                    app:hintTextColor="@color/primary_yellow"
+                    app:boxStrokeColor="@color/primary_yellow"
+                    android:textColorHint="@color/hint_color"
+                    app:boxBackgroundColor="#1A1A1A">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/spinnerGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:hint="Gender"
+                        android:paddingStart="45dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@color/white"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonSelectDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/birth_date"
+                        android:textAllCaps="false"
+                        app:icon="@drawable/ic_calendar"
+                        app:iconTint="@color/hint_color"
+                        app:iconGravity="textStart"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:textColor="@color/primary_yellow"
+                        app:strokeColor="@color/primary_yellow"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonSelectTime"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/birth_time"
+                        android:textAllCaps="false"
+                        app:icon="@drawable/ic_time"
+                        app:iconTint="@color/hint_color"
+                        app:iconGravity="textStart"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:textColor="@color/primary_yellow"
+                        app:strokeColor="@color/primary_yellow"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textViewBirthDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/additional_light_blue"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/textViewTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/additional_light_blue"
+                    android:textSize="14sp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="45dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/baseline_location_on_24"
+                    app:startIconTint="@color/primary_yellow"
+                    app:hintTextColor="@color/primary_yellow"
+                    app:boxStrokeColor="@color/primary_yellow"
+                    android:textColorHint="@color/hint_color"
+                    app:boxBackgroundColor="#1A1A1A">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:hint="@string/place_of_birth"
+                        android:paddingStart="45dp"
+                        android:paddingEnd="12dp"
+                        android:inputType="text"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Generate Birth Chart"
+                    android:textAllCaps="false"
+                    android:padding="12dp"
+                    app:cornerRadius="8dp"
+                    android:backgroundTint="@color/primary_yellow"
+                    android:textColor="@color/secondary_blue"
+                    app:elevation="4dp"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
     </RelativeLayout>
 
     <FrameLayout

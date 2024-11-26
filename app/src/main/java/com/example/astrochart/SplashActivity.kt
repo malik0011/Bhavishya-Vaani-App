@@ -13,10 +13,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Start the rotation animation
+        // Start the blink animation
         val splashLogo = findViewById<ImageView>(R.id.splashLogo)
-        val rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate_animation)
-        splashLogo.startAnimation(rotateAnimation)
+        val blinkAnimation = AnimationUtils.loadAnimation(this, R.anim.blink_animation)
+        splashLogo.startAnimation(blinkAnimation)
 
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
