@@ -260,6 +260,29 @@
                         app:strokeColor="@color/primary_yellow"/>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/selectLanguageText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Language:"
+                        android:textSize="14sp"
+                        android:textColor="@color/primary_yellow"
+                        android:layout_marginBottom="10dp"/>
+
+                    <Spinner
+                        android:id="@+id/languageSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem=""
+                        android:background="@android:color/transparent" />
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/textViewBirthDate"
                     android:layout_width="wrap_content"

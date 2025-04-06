@@ -1,0 +1,10 @@
+<!-- res/layout/spinner_item.xml -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/spinnerItemText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textColor="@color/neutral_light_gray"
+    android:padding="12dp"
+    android:text="@string/Bengali"
+    android:textSize="16sp"
+    android:background="@color/primary_yellow"/>

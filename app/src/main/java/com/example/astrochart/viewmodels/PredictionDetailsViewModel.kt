@@ -30,6 +30,7 @@ class PredictionDetailsViewModel : ViewModel() {
         placeOfBirth: String,
         currentLocation: String,
         currentProfession: String,
+        responseLang: String,
         responseTopic: String
     ) {
         Log.d("======", "getGeminiResposne: api stared....")
@@ -85,6 +86,7 @@ class PredictionDetailsViewModel : ViewModel() {
                     placeOfBirth = placeOfBirth,
                     currentLocation = currentLocation,
                     currentProfession = currentProfession,
+                    responseLang = responseLang,
                     responseTopic = responseTopic
                 )
                 Log.d("=====gemini", "getGeminiResponse: $prompt")
@@ -155,6 +157,7 @@ class PredictionDetailsViewModel : ViewModel() {
         placeOfBirth: String,
         currentLocation: String,
         currentProfession: String,
+        responseLang: String = "English",
         responseTopic: String
     ): String {
 
@@ -180,7 +183,7 @@ class PredictionDetailsViewModel : ViewModel() {
         Ensure the text is concise, fitting all information within brief, impactful sentences.
         Use word play and human-centered language that feels relatable.
         Include emojis sparingly to add emphasis or positivity without overwhelming the text.
-        Do not include any "next steps" section.
+        Do not include any "next steps" section. Also make sure all the response data is in $responseLang.
         The structure of the response should be flexible enough to accommodate different domains ("life," "career," "health").
         Generate the response in JSON format, with minimal but meaningful content.
         

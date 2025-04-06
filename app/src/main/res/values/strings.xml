@@ -19,4 +19,6 @@
     <string name="sorry_currently_we_are_out_of_service">Sorry, Currently we are out of service!!</string>
     <string name="place_of_birth">Place of Birth</string>
     <string name="birth_time">Birth Time</string>
+    <string name="English">English</string>
+    <string name="Bengali">বাংলা</string>
 </resources>

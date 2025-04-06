@@ -46,6 +46,7 @@ class ShowPredictionFragment : Fragment() {
     private var selectedRegion = "North India"
     private var currentProfession = ""
     private var topic = ""
+    private var language = ""
 
     //Ads
     private var mInterstitialAd: InterstitialAd? = null
@@ -65,6 +66,7 @@ class ShowPredictionFragment : Fragment() {
             selectedRegion = it.getString("selectedRegion")?: ""
             currentProfession = it.getString("currentProfession")?: ""
             topic = it.getString("topic")?: ""
+            language = it.getString("language")?: "English"
         }
 
         syncFirebase()
@@ -96,6 +98,7 @@ class ShowPredictionFragment : Fragment() {
             gender = gender,
             placeOfBirth = location,
             currentLocation = selectedRegion,
+            responseLang = language,
             currentProfession = currentProfession,
             responseTopic = topic//"Work and Growth"
         )

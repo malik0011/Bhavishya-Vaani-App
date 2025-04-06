@@ -9,6 +9,8 @@ import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -44,7 +46,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
-
+    private val languages = listOf("English", "বাংলা", "हिन्दी")
+    private val languageCodes = listOf("English", "Bengali", "Hindi")
     private var userName = ""
     private var gender = ""
     private var location = ""
@@ -54,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     private var selectedHour: Int = 0
     private var selectedMinute: Int = 0
     private var selectedAPM: String = "am"
+    private var selectedlang: String = "English"
     private var url:String=""
     private var regionAdapter: RegionSelectionAdapter? = null
     private var predictionAdapter: HorizontalPredictionListAdapter? = null
@@ -77,6 +81,7 @@ class MainActivity : AppCompatActivity() {
 
         setUpObserver()
         setUpListener()
+        setupLanguageSpinner()
 //        setUpAds()
 //        loadIndustrialAds()
     }
@@ -386,6 +391,7 @@ class MainActivity : AppCompatActivity() {
             putString("placeOfBirth", location.trim())
             putString("selectedRegion", viewModel.selectedRegion)
             putString("topic", topic)
+            putString("language", selectedlang)
             putString("currentProfession", "Student") //TODO: this value is currently static we need to replace it with user selected value.
         }
 
@@ -425,5 +431,24 @@ class MainActivity : AppCompatActivity() {
 
     private fun showHidePbar() {
         binding.pBar.isVisible = !binding.pBar.isVisible
+    }
+
+    private fun setupLanguageSpinner() {
+        val adapter = ArrayAdapter(this, R.layout.piner_item, languages)
+        adapter.setDropDownViewResource(R.layout.piner_item)
+        binding.languageSpinner.adapter = adapter
+
+        binding.languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?, view: View?, position: Int, id: Long
+            ) {
+                val selectedLanguage = languages[position]
+                val selectedCode = languageCodes[position]
+                Toast.makeText(this@MainActivity, "Selected: $selectedLanguage", Toast.LENGTH_SHORT).show()
+                selectedlang = selectedCode
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
 }
